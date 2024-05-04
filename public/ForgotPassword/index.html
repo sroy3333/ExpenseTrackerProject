@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ForgotPassword Page</title>
+    <link rel="stylesheet" href="/css/forgotpassword.css">
+</head>
+<body>
+    <form onsubmit="forgotpassword(event)">
+        <label for="email">Enter Email</label>
+        <input type="email" name="email" required>
+        <button>Send Mail</button>
+    </form>
+    <script>
+        function forgotpassword(e) {
+            e.preventDefault();
+            console.log(e.target.name);
+            const form = new FormData(e.target);
+
+            const userDetails = {
+                email: form.get("email"),
+            }
+            console.log(userDetails)
+            const token = localStorage.getItem('token');
+            axios.post('http://13.235.68.184:5000/password/forgotpassword', userDetails).then(response => {
+                if(response.status === 202) {
+                    document.body.innerHTML += '<div style="color:red;">Mail Successfuly sent </div>';
+                } else {
+                    throw new Error ('Something went wrong!!!')
+                }
+            }).catch(err => {
+                document.body.innerHTML += `<div style="color:red;">${err} </div>`;
+            })
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js" integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>

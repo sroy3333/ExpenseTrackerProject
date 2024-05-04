@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp Page</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <form onsubmit="signup(event)">
+        <label for="name">Enter name</label>
+        <input type="text" id="name" name="name" required />
+        <label for="email">Enter email</label>
+        <input type="email" id="email" name="email" required />
+        <label for="password">Enter password</label>
+        <input type="password" id="password" name="password" required />
+        <button>SignUp</button>
+    </form>
+    <a href='/login/login.html'>Existing User - Login</a>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js" integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        async function signup(e) {
+            try {
+                e.preventDefault();
+                console.log(e.target.email.value);
+
+                const signUpDetails = {
+                    name: e.target.name.value,
+                    email: e.target.email.value,
+                    password: e.target.password.value
+                };
+                console.log(signUpDetails)
+                const response = axios.post('http://13.235.68.184:5000/user/signup', signUpDetails)
+                if(response.status === 201) {
+                    window.location.href = "/login/login.html"
+                } else {
+                    throw new Error('Failed to login')
+                }
+   
+            }catch(err){
+                document.body.innerHTML += `<div style="color:red;">${err} <div>`;
+            }
+        }
+    </script>
+</body>
+</html>

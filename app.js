@@ -29,6 +29,11 @@ app.use('/purchase', purchaseRoutes);
 app.use('/premium', premiumFeatureRoutes);
 app.use('/password', resetpasswordRoutes);
 
+app .use((req, res) => {
+  console.log('urlll', req.url);
+  res.sendFile(path.join(__dirname, `public/${req.url}`));
+})
+
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
@@ -41,22 +46,6 @@ Forgotpassword.belongsTo(User);
 
 User.hasMany(DownloadedFile);
 DownloadedFile.belongsTo(User);
-
-app.get('/login.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'login', 'login.html'));
-});
-
-app.get('/signup.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'signup', 'signup.html'));
-});
-
-app.get('/ExpenseTracker/index.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'ExpenseTracker', 'index.html'));
-});
-
-app.get('/ForgotPassword/index.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'ForgotPassword', 'index.html'));
-});
 
 
 sequelize
